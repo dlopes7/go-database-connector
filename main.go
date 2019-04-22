@@ -24,7 +24,7 @@ func main() {
 	oracleSID := flag.String("sid", "", "Oracle SID")
 	databaseName := flag.String("database", "", "Database Name")
 
-	connectionString := flag.String("connection-string", "", "Connection string, ex: oracle://user:password@localhost/ORCLPDB1")
+	connectionString := flag.String("connectionString", "", "Connection string, ex: oracle://user:password@localhost/ORCLPDB1")
 
 	debug := flag.Bool("debug", false, "Enable debug logging")
 

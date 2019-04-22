@@ -79,9 +79,15 @@ func (o *OracleConnector) Query(query string, db *sql.DB) *Response {
 			row := new(Row)
 
 			for k, v := range cv {
+				o.Logger.Debugf("Creating column %s: %s", k, v)
 				col := new(Column)
-				col.Name = k
-				col.Value = v
+				col.Index = k
+
+				for key, value := range v {
+					col.Name = key
+					col.Value = value
+				}
+
 				row.Columns = append(row.Columns, *col)
 			}
 			response.Rows = append(response.Rows, *row)
@@ -99,7 +105,7 @@ func (o *OracleConnector) Query(query string, db *sql.DB) *Response {
 type mapStringScan struct {
 	cp []interface{}
 
-	row      map[string]string
+	row      map[int]map[string]string
 	colCount int
 	colNames []string
 }
@@ -108,7 +114,7 @@ func NewMapStringScan(columnNames []string) *mapStringScan {
 	lenCN := len(columnNames)
 	s := &mapStringScan{
 		cp:       make([]interface{}, lenCN),
-		row:      make(map[string]string, lenCN),
+		row:      make(map[int]map[string]string, lenCN),
 		colCount: lenCN,
 		colNames: columnNames,
 	}
@@ -125,7 +131,8 @@ func (s *mapStringScan) Update(rows *sql.Rows) error {
 
 	for i := 0; i < s.colCount; i++ {
 		if rb, ok := s.cp[i].(*sql.RawBytes); ok {
-			s.row[s.colNames[i]] = string(*rb)
+
+			s.row[i] = map[string]string{s.colNames[i]: string(*rb)}
 			*rb = nil // reset pointer to discard current value to avoid a bug
 		} else {
 			return fmt.Errorf("Cannot convert index %d column %s to type *sql.RawBytes", i, s.colNames[i])
@@ -134,6 +141,6 @@ func (s *mapStringScan) Update(rows *sql.Rows) error {
 	return nil
 }
 
-func (s *mapStringScan) Get() map[string]string {
+func (s *mapStringScan) Get() map[int]map[string]string {
 	return s.row
 }

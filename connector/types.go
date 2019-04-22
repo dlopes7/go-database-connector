@@ -18,6 +18,7 @@ type Row struct {
 }
 
 type Column struct {
+	Index int    `json:"index"`
 	Name  string `json:"name"`
 	Value string `json:"value"`
 }
