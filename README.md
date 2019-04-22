@@ -14,24 +14,28 @@ Response:
 
 ```json
 {
-   "error": false,
-   "errorMessage": "",
-   "rows": [
+   "error":false,
+   "errorMessage":"",
+   "rows":[
       {
          "columns":[
             {
+               "index":0,
                "name":"CUSTOMER_NAME",
                "value":"David"
             },
             {
+               "index":1,
                "name":"CUSTOMER_ID",
                "value":"1"
             },
             {
+               "index":2,
                "name":"CUSTOMER_AGE",
                "value":"30"
             },
             {
+               "index":3,
                "name":"CITY",
                "value":"Sao Paulo"
             }
@@ -40,38 +44,46 @@ Response:
       {
          "columns":[
             {
-               "name":"CUSTOMER_NAME",
-               "value":"Ady"
-            },
-            {
+               "index":1,
                "name":"CUSTOMER_ID",
                "value":"2"
             },
             {
+               "index":2,
                "name":"CUSTOMER_AGE",
                "value":"33"
             },
             {
+               "index":3,
                "name":"CITY",
                "value":"Sao Paulo"
+            },
+            {
+               "index":0,
+               "name":"CUSTOMER_NAME",
+               "value":"Ady"
             }
          ]
       },
       {
          "columns":[
             {
+               "index":0,
                "name":"CUSTOMER_NAME",
                "value":"Andre"
             },
             {
+               "index":1,
                "name":"CUSTOMER_ID",
                "value":"3"
             },
             {
+               "index":2,
                "name":"CUSTOMER_AGE",
                "value":"0"
             },
             {
+               "index":3,
                "name":"CITY",
                "value":"Sao Paulo"
             }
