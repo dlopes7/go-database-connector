@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -52,6 +53,7 @@ func main() {
 		response.ErrorMessage = "Need a connectionString or a hostname"
 
 	} else {
+		var db *sql.DB
 
 		if *dbType == "oracle" {
 			log.Debug("Obtaining an Oracle database connection")
@@ -63,12 +65,19 @@ func main() {
 			oracleConnector := &connector.OracleConnector{
 				Logger: *log,
 			}
-			db := oracleConnector.GetDB(dbHost, dbPort, dbUser, dbPassword, oracleSID, connectionString)
+			db = oracleConnector.GetDB(dbHost, dbPort, dbUser, dbPassword, oracleSID, connectionString)
 
-			response = oracleConnector.Query(*query, db)
+		} else if *dbType == "db2" {
+			log.Debug("Obtaining a DB2 database connection")
+
+			db2Connector := &connector.DB2Connector{
+				Logger: *log,
+			}
+			db = db2Connector.GetDB(dbHost, dbPort, dbUser, dbPassword, databaseName, connectionString)
 
 		}
 
+		response = connector.Query(*query, db)
 	}
 
 	resJson, _ := json.Marshal(response)

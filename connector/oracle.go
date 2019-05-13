@@ -45,13 +45,13 @@ func (o *OracleConnector) GetDB(hostname *string, port *int, username *string, p
 
 }
 
-func (o *OracleConnector) Query(query string, db *sql.DB) *Response {
+func Query(query string, db *sql.DB) *Response {
 
 	response := new(Response)
 
 	if db != nil {
 
-		o.Logger.Debugf("Attempting to execute query \"%s\"\n", query)
+		log.Printf("Attempting to execute query \"%s\"\n", query)
 		rows, err := db.Query(query)
 		if err != nil {
 			response.Error = true
@@ -79,7 +79,7 @@ func (o *OracleConnector) Query(query string, db *sql.DB) *Response {
 			row := new(Row)
 
 			for k, v := range cv {
-				o.Logger.Debugf("Creating column %s: %s", k, v)
+				log.Printf("Creating column %s: %s", k, v)
 				col := new(Column)
 				col.Index = k
 
